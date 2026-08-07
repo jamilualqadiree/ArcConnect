@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ArcConnect</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f7ff;
+      color: #172554;
+    }
+
+    header {
+      background: #0b1f3a;
+      color: white;
+      padding: 20px;
+    }
+
+    .nav {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .logo span {
+      color: #42d6e8;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      border-radius: 10px;
+      padding: 12px 18px;
+      font-weight: bold;
+    }
+
+    .connect {
+      background: #42d6e8;
+      color: #071a30;
+    }
+
+    .hero {
+      max-width: 1100px;
+      margin: 50px auto;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 span {
+      color: #16a6bd;
+    }
+
+    .hero p {
+      font-size: 18px;
+      line-height: 1.7;
+      color: #52627a;
+      margin-bottom: 25px;
+    }
+
+    .main-btn {
+      background: #172554;
+      color: white;
+      font-size: 16px;
+    }
+
+    .card {
+      background: white;
+      padding: 28px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    .card h2 {
+      margin-bottom: 15px;
+    }
+
+    .status {
+      padding: 12px;
+      border-radius: 10px;
+      background: #e8f8fb;
+      color: #087f91;
+      margin: 15px 0;
+    }
+
+    .address {
+      word-break: break-all;
+      font-size: 14px;
+      color: #52627a;
+    }
+
+    .section {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    .section h2 {
+      margin-bottom: 20px;
+      font-size: 30px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .feature {
+      background: white;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+    }
+
+    .feature h3 {
+      margin-bottom: 10px;
+    }
+
+    .feature p {
+      color: #617087;
+      line-height: 1.6;
+    }
+
+    .resources {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .resource {
+      background: #172554;
+      color: white;
+      text-decoration: none;
+      padding: 13px 18px;
+      border-radius: 10px;
+      display: inline-block;
+    }
+
+    footer {
+      margin-top: 50px;
+      background: #0b1f3a;
+      color: #b9c7dc;
+      text-align: center;
+      padding: 30px;
+    }
+
+    @media (max-width: 750px) {
+      .hero {
+        grid-template-columns: 1fr;
+        margin-top: 25px;
+      }
+
+      .hero h1 {
+        font-size: 38px;
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">Arc<span>Connect</span></div>
+    <button class="connect" onclick="connectWallet()">
+      Connect Wallet
+    </button>
+  </div>
+</header>
+
+<section class="hero">
+
+  <div>
+    <h1>
+      Start your <span>Web3</span> journey on Arc.
+    </h1>
+
+    <p>
+      ArcConnect is a simple onboarding platform that helps beginners
+      connect their wallet, explore Arc, learn about USDC payments,
+      and access useful Arc resources in one place.
+    </p>
+
+    <button class="main-btn" onclick="connectWallet()">
+      Get Started
+    </button>
+  </div>
+
+  <div class="card">
+    <h2>Arc Wallet</h2>
+
+    <div id="status" class="status">
+      Wallet not connected
+    </div>
+
+    <p id="address" class="address">
+      Connect your wallet to get started.
+    </p>
+  </div>
+
+</section>
+
+<section class="section">
+
+  <h2>What you can do</h2>
+
+  <div class="features">
+
+    <div class="feature">
+      <h3>Connect Wallet</h3>
+      <p>
+        Connect an EVM wallet and start interacting with the Arc ecosystem.
+      </p>
+    </div>
+
+    <div class="feature">
+      <h3>USDC Payments</h3>
+      <p>
+        Arc uses USDC as its native gas asset, making stablecoin payments
+        simple and predictable.
+      </p>
+    </div>
+
+    <div class="feature">
+      <h3>Learn Arc</h3>
+      <p>
+        Discover Arc resources, the testnet faucet and the Arc explorer
+        from one beginner-friendly dashboard.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+<section class="section">
+
+  <h2>Arc Resources</h2>
+
+  <div class="resources">
+
+    <a class="resource"
+       href="https://faucet.circle.com/"
+       target="_blank">
+       Get Testnet USDC
+    </a>
+
+    <a class="resource"
+       href="https://testnet.arcscan.app/"
+       target="_blank">
+       Arc Explorer
+    </a>
+
+    <a class="resource"
+       href="https://www.arc.io/"
+       target="_blank">
+       Learn About Arc
+    </a>
+
+  </div>
+
+</section>
+
+<footer>
+  ArcConnect — Built for the Programmable Money Hackathon
+</footer>
+
+<script>
+
+  const ARC_CHAIN_ID = 5042002;
+
+  async function connectWallet() {
+
+    if (!window.ethereum) {
+      alert("Please install or open an EVM wallet such as MetaMask.");
+      return;
+    }
+
+    try {
+
+      const provider = new ethers.BrowserProvider(window.ethereum);
+
+      await provider.send("eth_requestAccounts", []);
+
+      const network = await provider.getNetwork();
+
+      if (Number(network.chainId) !== ARC_CHAIN_ID) {
+
+        try {
+
+          await window.ethereum.request({
+            method: "wallet_switchEthereumChain",
+            params: [
+              {
+                chainId: "0x4CEF52"
+              }
+            ]
+          });
+
+        } catch (switchError) {
+
+          if (switchError.code === 4902) {
+
+            await window.ethereum.request({
+              method: "wallet_addEthereumChain",
+              params: [
+                {
+                  chainId: "0x4CEF52",
+                  chainName: "Arc Testnet",
+                  nativeCurrency: {
+                    name: "USDC",
+                    symbol: "USDC",
+                    decimals: 18
+                  },
+                  rpcUrls: [
+                    "https://rpc.testnet.arc.network"
+                  ],
+                  blockExplorerUrls: [
+                    "https://testnet.arcscan.app"
+                  ]
+                }
+              ]
+            });
+
+          } else {
+            throw switchError;
+          }
+        }
+      }
+
+      const accounts = await provider.send(
+        "eth_requestAccounts",
+        []
+      );
+
+      document.getElementById("status").innerText =
+        "Connected to Arc Testnet";
+
+      document.getElementById("address").innerText =
+        accounts[0];
+
+    } catch (error) {
+
+      console.error(error);
+
+      document.getElementById("status").innerText =
+        "Connection failed";
+
+    }
+  }
+
+</script>
+
+</body>
+  </html>
